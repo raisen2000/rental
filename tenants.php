@@ -65,9 +65,9 @@
 										 <p><b><?php echo  $last_payment ?></b></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary view_payment" type="button" data-id="<?php echo $row['id'] ?>" >View</button>
-										<button class="btn btn-sm btn-primary edit_tenant" type="button" data-id="<?php echo $row['id'] ?>" >Edit</button>
-										<button class="btn btn-sm btn-danger delete_tenant" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
+										<button class="btn btn-sm btn-outline-primary view_payment" type="button" data-id="<?php echo $row['id'] ?>" >View</button>
+										<button class="btn btn-sm btn-outline-primary edit_tenant" type="button" data-id="<?php echo $row['id'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-outline-danger delete_tenant" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
 									</td>
 								</tr>
 								<?php endwhile; ?>
@@ -133,5 +133,4 @@
 			}
 		})
 	}
-</script><footer>
-</footer>
+</script>

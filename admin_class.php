@@ -225,8 +225,6 @@ Class Action {
 	
 	function save_category(){
 		extract($_POST);
-
-
 		$data = " name = '$name' ";
 			if(empty($id)){
 				$save = $this->db->query("INSERT INTO categories set $data");
@@ -236,41 +234,6 @@ Class Action {
 		if($save)
 			return 1;
 	}
-
-
-function edit_category(){
-    // Check if the necessary POST data is set
-    if(isset($_POST['name'], $_POST['id'])){
-        // Get the category name and ID from the POST data
-        $name = $_POST['name'];
-        $id = $_POST['id'];
-        
-        // Prepare the update query
-        $stmt = $this->db->prepare("UPDATE categories SET name = ? WHERE id = ?");
-        // Bind parameters
-        $stmt->bind_param("si", $name, $id);
-        // Execute the query
-        $stmt->execute();
-        
-        // Check if the update was successful
-        if($stmt->affected_rows > 0) {
-            // Close the statement
-            $stmt->close();
-            return 1; // Return success status
-        } else {
-            // If the update failed, get the error message
-            $error_message = $this->db->error;
-            // Close the statement
-            $stmt->close();
-            return $error_message; // Return the error message
-        }
-    } else {
-        return "Required POST data is missing"; // Return failure status if POST data is missing
-    }
-}
-
-
-
 	function delete_category(){
 		extract($_POST);
 		$delete = $this->db->query("DELETE FROM categories where id = ".$id);
@@ -387,4 +350,3 @@ function edit_category(){
 		}
 	}
 }
-

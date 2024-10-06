@@ -7,9 +7,6 @@ foreach($qry->fetch_array() as $k => $val){
 }
 }
 ?>
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css">
 <div class="container-fluid">
     <form action="" id="manage-payment">
         <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
@@ -46,12 +43,12 @@ foreach($qry->fetch_array() as $k => $val){
     <div class='d'>
         <large><b>Details</b></large>
         <hr>
-        <p>Tenant: <span class="tname"></span></p>
-        <p>Monthly Rental Rate: <span class="price"></span></p>
-        <p>Outstanding Balance: <span class="outstanding"></span></p>
-        <p>Total Paid: <span class="total_paid"></span></p>
-        <p>Rent Started: <span class='rent_started'></span></p>
-        <p>Payable Months: <span class="payable_months"></span></p>
+        <p>Tenant: <b class="tname"></b></p>
+        <p>Monthly Rental Rate: <b class="price"></b></p>
+        <p>Outstanding Balance: <b class="outstanding"></b></p>
+        <p>Total Paid: <b class="total_paid"></b></p>
+        <p>Rent Started: <b class='rent_started'></b></p>
+        <p>Payable Months: <b class="payable_months"></b></p>
         <hr>
     </div>
 </div>
@@ -115,22 +112,3 @@ foreach($qry->fetch_array() as $k => $val){
         })
     })
 </script>
-
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
-<script>
-    new DataTable('#example', {
-    layout: {
-        topStart: {
-            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
-        }
-    }
-});
-</script><footer>
-</footer>

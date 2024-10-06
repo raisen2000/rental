@@ -79,5 +79,4 @@ foreach($qry->fetch_array() as $k => $val){
 			}
 		})
 	})
-</script><footer>
-</footer>
+</script>

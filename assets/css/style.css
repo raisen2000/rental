@@ -1,17 +1,18 @@
-
+/**
+* Template Name: Medilab - v2.0.0
+* Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
 
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
 body {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Open Sans", sans-serif;
   color: #444444;
   width: 100%;
   height: calc(100%);
-  overflow-x: hidden;
-  background: #eff3f6 !important;
 }
 
 a {
@@ -24,28 +25,76 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-/*  font-family: "Raleway", sans-serif;*/
+  font-family: "Raleway", sans-serif;
 }
 
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
-#page {
-    display: none;
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fff;
 }
-#loading {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2000;
-    width: 100%;
-    height: 100vh;
-    background-color: #fff;
-    background-image: url("../img/loading-42.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 400px;
+
+#preloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #1977cc;
+  border-top-color: #d1e6f9;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
+}
+#preloader2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #ffffff82;
+}
+
+#preloader2:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #1977cc;
+  border-top-color: #d1e6f9;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
+}
+@-webkit-keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*--------------------------------------------------------------
@@ -200,7 +249,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #2c4964;
   transition: 0.3s;
   font-size: 14px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding: 5px 2px;
   border-bottom: 2px solid #fff;
 }
@@ -250,7 +299,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-menu .drop-down > a:after {
   content: "\ea99";
-/*  font-family: IcoFont;*/
+  font-family: IcoFont;
   padding-left: 5px;
 }
 
@@ -271,7 +320,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-menu .drop-down .drop-down > a:after {
   content: "\eaa0";
-/*  font-family: IcoFont;*/
+  font-family: IcoFont;
   position: absolute;
   right: 15px;
 }
@@ -371,7 +420,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .mobile-nav .drop-down > a:after {
   content: "\ea99";
-/*  font-family: IcoFont;*/
+  font-family: IcoFont;
   padding-left: 10px;
   position: absolute;
   right: 15px;
@@ -452,7 +501,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #hero .btn-get-started {
-  font-family: "Poppins", sans-serif;
+  font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 14px;
@@ -884,7 +933,7 @@ section {
 .counts .count-box p {
   padding: 0;
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 14px;
 }
 
@@ -1576,38 +1625,20 @@ nav#sidebar {
     background: url(../uploads/art-cover.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    padding-top: 45px;
-    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.05);
 }
 a.nav-item {
     position: relative;
     display: block;
-    padding: 15px 25px;
+    padding: .75rem 1.25rem;
     margin-bottom: -1px;
-/*    border: 1px solid rgba(0,0,0,.125);*/
+    border: 1px solid rgba(0,0,0,.125);
     background-color: #ffffffc4;
     color: #484343;
-     margin-top: 0px;
-    margin-bottom: 1px;
-/*    font-weight: 300;*/
-    font-size: 14px;
-    margin-left: 19px;
+    font-weight: 600;
 }
-a.nav-item:hover{
-    color: #ed6801;
-}
-a.nav-item:focus,.nav-item.active {
-/*    background-color: #000000ad;*/
-/*    color: #fffafa;*/
-    color: #ed6801;
-    background-color: rgba(36, 44, 109, 0.15) !important;
-    margin-left: 19px !important;
-    border-radius: 15px 0 0 15px;
-    padding: 15px 25px;
-    border-right: 3px solid #ed6801;
-    margin-top: 0px;
-    margin-bottom: 1px;
-    transition: 0.5s ease;
+a.nav-item:hover, .nav-item.active {
+    background-color: #000000ad;
+    color: #fffafa;
 }
 main#view-panel{
   margin-left: 250px; 
@@ -1698,279 +1729,3 @@ span.select2-selection.select2-selection--single {
 }
 span.select2-selection__arrow {
     top: .3rem !important;
-}
-
-#login-form .form-control{
-      padding: 16px;
-    border: 1px solid #999;
-    height: auto;
-}
-#login-form .control-label{
- position: absolute;
-    top: -1.4ex;
-    z-index: 1;
-    left: 1em;
-    font-size: 14px;
-    background-color: white;
-    padding: 0 5px;
-    color: #979797e0;
-    font-weight: 500;
-}
-#login-form .form-group{
-position: relative;
-}
-
-.btn-1{
-  font-size: 14px;
-}
-.navbar .container-fluid{
-  display: block !important;
-}
-.dropdown-menu{
-      left: -181px !important;
-}
-
-.icon-field svg{
-  width: 20px;
-    height: 20px; 
-    margin-right: 10px;
-}
-.time{
-  font-weight: 500;
-}
-
-
-#sidebar-menu {
-  background-color: #ffffff;
-  padding-bottom: 100px;
-  width: 100%;
-  padding-top: 16px;
-}
-
-#sidebar-menu ul ul {
-  display: none;
-}
-
-#sidebar-menu ul ul li {
-  border-top: 0;
-}
-
-#sidebar-menu ul ul li.active a {
-  color: #ed6801;
-}
-
-#sidebar-menu ul ul li.active a:before {
-  content: "\F12F";
-  font: normal normal normal 24px/1 "Material Design Icons";
-  position: absolute;
-  font-size: 8px;
-  left: 55px;
-  color: #ed6801;
-  top: 15px;
-}
-
-#sidebar-menu ul ul a {
-  color: rgba(45, 59, 72, 0.8);
-  display: block;
-  padding: 12px 25px 12px 78px;
-  font-size: 14px;
-}
-
-#sidebar-menu ul ul a:hover {
-  color: #2d3b48;
-}
-
-#sidebar-menu ul ul a i {
-  margin-right: 5px;
-}
-
-#sidebar-menu ul ul ul a {
-  padding-left: 80px;
-}
-
-#sidebar-menu > ul > li > a {
-  color: #2d3b48;
-  display: block;
-  padding: 15px 25px;
-  margin: 3px 0;
-  background-color: #ffffff;
-  /*margin-left: 19px;*/
-  border-radius: 15px 0 0 15px;
-  margin-left: 16px;
-}
-
-#sidebar-menu > ul > li > a:hover {
-  color: #ed6801;
-  text-decoration: none;
-}
-
-#sidebar-menu > ul > li > a:hover i {
-  color: #ed6801;
-}
-
-#sidebar-menu > ul > li > a span i {
-  font-size: 18px;
-  line-height: 25px;
-}
-
-#sidebar-menu > ul > li.nav-active > a {
-  background-color: rgba(36, 44, 109, 0.15);
-  border-right: 3px solid #0B2A97;
-  padding: 15px 25px;
-}
-
-#sidebar-menu > ul > li > a > span {
-  vertical-align: middle;
-}
-
-#sidebar-menu > ul > li > a > svg {
-  display: inline-block;
-  font-size: 18px;
-  line-height: 25px;
-  margin-left: 3px;
-  margin-right: 10px;
-  text-align: center;
-  vertical-align: middle;
-     width: 20px;
-    height: 20px;
-  background-color: #ffffff;
-  color: #6c757d;
-}
-
-#sidebar-menu > ul > li > a > i.i-right {
-  float: right;
-  margin: 3px 0 0 0;
-}
-
-#sidebar-menu > ul > li > a.active {
-  color: #ed6801;
-  background-color: rgba(36, 44, 109, 0.15);
-  margin-left: 19px;
-   border-radius: 15px 0 0 15px;
-   padding: 15px 25px;
-  border-right: 3px solid #0B2A97;
-}
-
-#sidebar-menu > ul > li > a.active svg {
-  background-color: transparent;
-  color: #ed6801;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-}
-
-#sidebar-menu > ul > li > a.active .mdi-chevron-right {
-  background-color: transparent;
-  color: #ed6801;
-}
-
-
-#sidebar-menu > ul > li.nav-active > ul {
-  display: block;
-}
-
-
-#sidebar-menu > ul > li.nav-active > a {
-    background-color: rgba(36, 44, 109, 0.15);
-    border-right: 3px solid #0B2A97;
-    padding: 15px 25px;
-}
-#sidebar-menu > ul > li.nav-active > a{
-  background-color: rgba(36, 44, 109, 0.15);
-    border-right: 3px solid #0B2A97;
-    padding: 15px 25px;
-}
-
-
-.has_sub.nav-active i.mdi-chevron-right:before {
-    content: "\F140";
-}
-
-.page-title {
-    font-size: 20px;
-    margin-bottom: 0;
-    margin-top: 0;
-        font-weight: 800;
-}
-
-.round {
-/*    line-height: 60px;*/
-    color: #fff;
-     width: 60px; 
-     height: 60px; 
-    /* font-size: 50px; */
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-}
-
-.card-1{
-      border-radius: 20px;
-}
-.text1{
-      font-size: 1.75rem;
-          font-weight: 600;
-}
-
-.btn-primary{
-  background-color: #1e245a;
-    border: 1px solid #1e245a;
-    color: #ffffff;
-}
-
-.profile-dropdown{
-  border-radius: 0.25rem 0.25rem 0 0;
-    background-color: #ed6801;
-    color: #ffffff;
-    margin: -4px 0px 0px 0px;
-    width: auto;
-    padding: 6px 20px;
-}
-.dropdown-item{
-      padding: .55rem 1.5rem;
-}
-.profile-dropdown i{
-      font-size: 17px;
-    vertical-align: middle;
-    margin-right: 5px;
-}
-.text3{
-      margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-th{
-  font-weight: 400 !important;
-}
-
-
-.button-menu-mobile {
-  background-color: #ed6801;
-  font-size: 28px;
-  color: #ffffff;
-  width: 42px;
-  border-radius: 3px;
-  border: none;
-  line-height: 70px;
-  display: none;
-}
-
-.button-menu-mobile-topbar {
-  background-color: #ec536c;
-  color: #ffffff;
-  font-size: 20px;
-  height: 42px;
-  width: 42px;
-  line-height: 42px;
-  border-radius: 0;
-  border: none;
-  position: absolute;
-  right: -42px;
-  top: 5px;
-}
-
-@media (max-width: 800px) {
-    .button-menu-mobile {
-        display: block;
-    }
-}

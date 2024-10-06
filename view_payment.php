@@ -72,5 +72,4 @@ $outstanding = $payable - $paid;
 	td, th{
 		padding: 3px !important;
 	}
-</style><footer>
-</footer>
+</style>

@@ -45,17 +45,17 @@
 										<?php echo date('M d, Y',strtotime($row['date_created'])) ?>
 									</td>
 									<td class="">
-										 <p><?php echo ucwords($row['name']) ?></p>
+										 <p> <b><?php echo ucwords($row['name']) ?></b></p>
 									</td>
 									<td class="">
-										 <p><?php echo ucwords($row['invoice']) ?></p>
+										 <p> <b><?php echo ucwords($row['invoice']) ?></b></p>
 									</td>
 									<td class="text-right">
-										 <p><?php echo number_format($row['amount'],2) ?></p>
+										 <p> <b><?php echo number_format($row['amount'],2) ?></b></p>
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary edit_invoice" type="button" data-id="<?php echo $row['id'] ?>" >Edit</button>
-										<button class="btn btn-sm btn-danger delete_invoice" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
+										<button class="btn btn-sm btn-outline-primary edit_invoice" type="button" data-id="<?php echo $row['id'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-outline-danger delete_invoice" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
 									</td>
 								</tr>
 								<?php endwhile; ?>

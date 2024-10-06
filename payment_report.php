@@ -27,7 +27,7 @@ $month_of = isset($_GET['month_of']) ? $_GET['month_of'] : date('Y-m');
 	</style>
 </noscript>
 <div class="container-fluid">
-	<div class="col-lg-12 mt-5">
+	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-12">
@@ -116,5 +116,4 @@ $month_of = isset($_GET['month_of']) ? $_GET['month_of'] : date('Y-m');
 		e.preventDefault()
 		location.href = 'index.php?page=payment_report&'+$(this).serialize()
 	})
-</script><footer>
-</footer>
+</script>

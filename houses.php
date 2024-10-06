@@ -2,10 +2,10 @@
 
 <div class="container-fluid">
 	
-	<div class="col-lg-12 mt-5">
+	<div class="col-lg-12">
 		<div class="row">
 			<!-- FORM Panel -->
-			<div class="col-md-12">
+			<div class="col-md-4">
 			<form action="" id="manage-house">
 				<div class="card">
 					<div class="card-header">
@@ -13,15 +13,11 @@
 				  	</div>
 					<div class="card-body">
 							<div class="form-group" id="msg"></div>
-							<div class="row">
-							<div class="col-md-6">
-								<input type="hidden" name="id">
-								<div class="form-group">
-									<label class="control-label">House No</label>
-									<input type="text" class="form-control" name="house_no" required="">
-								</div>
+							<input type="hidden" name="id">
+							<div class="form-group">
+								<label class="control-label">House No</label>
+								<input type="text" class="form-control" name="house_no" required="">
 							</div>
-							<div class="col-md-6">
 							<div class="form-group">
 								<label class="control-label">Category</label>
 								<select name="category_id" id="" class="custom-select" required>
@@ -37,20 +33,14 @@
 								<?php endif; ?>
 								</select>
 							</div>
-						</div>
-						<div class="col-md-6">
 							<div class="form-group">
 								<label for="" class="control-label">Description</label>
 								<textarea name="description" id="" cols="30" rows="4" class="form-control" required></textarea>
 							</div>
-						</div>
-						<div class="col-md-6">
 							<div class="form-group">
 								<label class="control-label">Price</label>
 								<input type="number" class="form-control text-right" name="price" step="any" required="">
 							</div>
-						</div>
-						</div>
 					</div>
 					<div class="card-footer">
 						<div class="row">
@@ -65,7 +55,47 @@
 			</div>
 			<!-- FORM Panel -->
 
-			
+			<!-- Table Panel -->
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header">
+						<b>House List</b>
+					</div>
+					<div class="card-body">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="text-center">#</th>
+									<th class="text-center">House</th>
+									<th class="text-center">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+								$i = 1;
+								$house = $conn->query("SELECT h.*,c.name as cname FROM houses h inner join categories c on c.id = h.category_id order by id asc");
+								while($row=$house->fetch_assoc()):
+								?>
+								<tr>
+									<td class="text-center"><?php echo $i++ ?></td>
+									<td class="">
+										<p>House #: <b><?php echo $row['house_no'] ?></b></p>
+										<p><small>House Type: <b><?php echo $row['cname'] ?></b></small></p>
+										<p><small>Description: <b><?php echo $row['description'] ?></b></small></p>
+										<p><small>Price: <b><?php echo number_format($row['price'],2) ?></b></small></p>
+									</td>
+									<td class="text-center">
+										<button class="btn btn-sm btn-primary edit_house" type="button" data-id="<?php echo $row['id'] ?>"  data-house_no="<?php echo $row['house_no'] ?>" data-description="<?php echo $row['description'] ?>" data-category_id="<?php echo $row['category_id'] ?>" data-price="<?php echo $row['price'] ?>" >Edit</button>
+										<button class="btn btn-sm btn-danger delete_house" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
+									</td>
+								</tr>
+								<?php endwhile; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- Table Panel -->
 		</div>
 	</div>	
 
@@ -101,7 +131,7 @@
 				if(resp==1){
 					alert_toast("Data successfully saved",'success')
 					setTimeout(function(){
-						location.href = 'index.php?page=manage_houses';
+						location.reload()
 					},1500)
 
 				}
@@ -112,37 +142,36 @@
 			}
 		})
 	})
-	// $('.edit_house').click(function(){
-	// 	start_load()
-	// 	var cat = $('#manage-house')
-	// 	cat.get(0).reset()
-	// 	cat.find("[name='id']").val($(this).attr('data-id'))
-	// 	cat.find("[name='house_no']").val($(this).attr('data-house_no'))
-	// 	cat.find("[name='description']").val($(this).attr('data-description'))
-	// 	cat.find("[name='price']").val($(this).attr('data-price'))
-	// 	cat.find("[name='category_id']").val($(this).attr('data-category_id'))
-	// 	end_load()
-	// })
-	// $('.delete_house').click(function(){
-	// 	_conf("Are you sure to delete this house?","delete_house",[$(this).attr('data-id')])
-	// })
-	// function delete_house($id){
-	// 	start_load()
-	// 	$.ajax({
-	// 		url:'ajax.php?action=delete_house',
-	// 		method:'POST',
-	// 		data:{id:$id},
-	// 		success:function(resp){
-	// 			if(resp==1){
-	// 				alert_toast("Data successfully deleted",'success')
-	// 				setTimeout(function(){
-	// 					location.reload()
-	// 				},1500)
+	$('.edit_house').click(function(){
+		start_load()
+		var cat = $('#manage-house')
+		cat.get(0).reset()
+		cat.find("[name='id']").val($(this).attr('data-id'))
+		cat.find("[name='house_no']").val($(this).attr('data-house_no'))
+		cat.find("[name='description']").val($(this).attr('data-description'))
+		cat.find("[name='price']").val($(this).attr('data-price'))
+		cat.find("[name='category_id']").val($(this).attr('data-category_id'))
+		end_load()
+	})
+	$('.delete_house').click(function(){
+		_conf("Are you sure to delete this house?","delete_house",[$(this).attr('data-id')])
+	})
+	function delete_house($id){
+		start_load()
+		$.ajax({
+			url:'ajax.php?action=delete_house',
+			method:'POST',
+			data:{id:$id},
+			success:function(resp){
+				if(resp==1){
+					alert_toast("Data successfully deleted",'success')
+					setTimeout(function(){
+						location.reload()
+					},1500)
 
-	// 			}
-	// 		}
-	// 	})
-	// }
+				}
+			}
+		})
+	}
 	$('table').dataTable()
-</script><footer>
-</footer>
+</script>

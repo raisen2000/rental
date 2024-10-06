@@ -54,13 +54,6 @@ if($action == "save_category"){
 		echo $save;
 }
 
-
-if($action == "edit_category"){
-	$save = $crud->edit_category();
-	if($save)
-		echo $save;
-}
-
 if($action == "delete_category"){
 	$delete = $crud->delete_category();
 	if($delete)
