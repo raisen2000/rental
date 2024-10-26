@@ -190,7 +190,7 @@
                                 <div class="card-footer">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <a href="index.php?page=prediction" class="text-primary float-right">View Payments <span class="fa fa-angle-right"></span></a>
+                                            <a href="index.php?page=prediction" class="text-primary float-right">View Prediction <span class="fa fa-angle-right"></span></a>
                                         </div>
                                     </div>
                                 </div>

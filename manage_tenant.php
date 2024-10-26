@@ -26,7 +26,7 @@ foreach($qry->fetch_array() as $k => $val){
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
-				<label for="" class="control-label">Email</label>
+				<label for="" class="control-label">Facebook Name</label>
 				<input type="email" class="form-control" name="email"  value="<?php echo isset($email) ? $email :'' ?>" required>
 			</div>
 			<div class="col-md-4">

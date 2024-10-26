@@ -31,7 +31,7 @@ header("location:index.php?page=home");
 	body{
 		width: 100%;
 	    height: calc(100%);
-	    background: #007bff;
+	    /*background: #007bff;*/
 	}
 	main#main{
 		width:100%;
@@ -46,7 +46,6 @@ header("location:index.php?page=home");
 		background:white;
 		display: flex;
 		align-items: center;
-		
 	}
 	#login-left{
 		position: absolute;
@@ -56,9 +55,9 @@ header("location:index.php?page=home");
 		background:#59b6ec61;
 		display: flex;
 		align-items: center;
-		background: url(assets/uploads/bahay.jpg);
+		/*background: url(assets/uploads/blood-cells.jpg);
 	    background-repeat: no-repeat;
-	    background-size: cover;
+	    background-size: cover;*/
 	}
 	#login-right .card{
 		margin: auto;
@@ -80,7 +79,7 @@ div#login-right::before {
     left: 0;
     width: calc(100%);
     height: calc(100%);
-    background: #000000e0;
+    /*background: #000000e0;*/
 }
 
 </style>
@@ -89,12 +88,13 @@ div#login-right::before {
 
 
   <main id="main" class=" bg-light">
-  		<div id="login-left" class="bg-dark">
+  		<div id="login-left" class="bg-info">
+  			<img src="bg.jpg" alt="..." width="100%">
   		</div>
 
   		<div id="login-right" class="bg-light">
   			<div class="w-100">
-			<h4 class="text-white text-center"><b><?php echo $_SESSION['system']['name'] ?></b></h4>
+			<h4 class="text-info text-center"><b><?php echo $_SESSION['system']['name'] ?></b></h4>
 			<br>
 			<br>
   			<div class="card col-md-8">
