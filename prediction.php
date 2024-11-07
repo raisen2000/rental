@@ -5,6 +5,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Initialize variables to avoid undefined warnings
+$monthsData = [];
+$predictedIncomes = [];
+$totalPredictedIncome = 0;
+$previousIncome = null;
+$growthRates = [];
+$totalGrowth = 0;
+$monthsCount = 0;
+
 // Get current date and calculate the last 6 months
 $currentMonth = date("Y-m-01 00:00:00");
 $sixMonthsAgo = date("Y-m-d H:i:s", strtotime("-6 months", strtotime($currentMonth)));
@@ -18,13 +27,7 @@ $sql = "SELECT DATE_FORMAT(date_created, '%Y-%m') AS payment_month, SUM(amount) 
 
 $result = $conn->query($sql);
 
-$monthsData = [];
-$previousIncome = null;
-$growthRates = [];
-$totalGrowth = 0;
-$monthsCount = 0;
-
-if ($result->num_rows > 0) {
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $monthsData[] = $row;
 
@@ -45,9 +48,6 @@ $averageGrowthRate = ($monthsCount > 0) ? $totalGrowth / $monthsCount : 0;
 
 // Predict income for the next 6 months based on the last month's income and average growth rate
 $lastMonthIncome = $previousIncome;
-$predictedIncomes = [];
-$totalPredictedIncome = 0; // Variable to store the total predicted income
-
 for ($i = 1; $i <= 6; $i++) {
     $predictedMonth = date("Y-m", strtotime("+$i months", strtotime($currentMonth)));
     $nextMonthIncome = $lastMonthIncome * (1 + $averageGrowthRate);  // Apply growth rate to last month’s income
@@ -77,6 +77,8 @@ $conn->close();
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Income Prediction Dashboard</h1>
+
+        <!-- Table for Last 6 Months Income -->
         <div class="row">
             <div class="col-md-12">
                 <h2>Last 6 Months Income</h2>
@@ -97,6 +99,8 @@ $conn->close();
                     </tbody>
                 </table>
             </div>
+
+            <!-- Table for Predicted Income -->
             <div class="col-md-12">
                 <h2>Predicted Income for Next 6 Months</h2>
                 <table class="table table-bordered">
@@ -121,32 +125,78 @@ $conn->close();
                 </table>
             </div>
 
+            <!-- Income Prediction Graphs -->
             <div class="col-md-12">
-                <h2>Income Prediction Graph</h2>
-                <canvas id="incomePredictionChart"></canvas> <!-- Canvas for the chart -->
+                <h2>Income Prediction Graphs</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Last 6 Months Income</h5>
+                        <canvas id="lastSixMonthsIncomeChart"></canvas> <!-- Canvas for the last 6 months income chart -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Predicted Income</h5>
+                        <canvas id="predictedIncomeChart"></canvas> <!-- Canvas for the predicted income chart -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Prepare the data for the chart
-        var ctx = document.getElementById('incomePredictionChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line', // Type of chart: line
+        // Chart for Last 6 Months Income
+        var ctxLastSixMonths = document.getElementById('lastSixMonthsIncomeChart').getContext('2d');
+        var lastSixMonthsChart = new Chart(ctxLastSixMonths, {
+            type: 'line',
             data: {
-                labels: <?php echo json_encode(array_column($predictedIncomes, 'month')); ?>, // Months (X-axis)
+                labels: <?php echo json_encode(array_column($monthsData, 'payment_month')); ?>,
                 datasets: [{
-                    label: 'Predicted Income',
-                    data: <?php echo json_encode(array_column($predictedIncomes, 'predicted_income')); ?>, // Income (Y-axis)
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light blue background
-                    borderColor: 'rgba(75, 192, 192, 1)', // Blue line
+                    label: 'Total Income',
+                    data: <?php echo json_encode(array_column($monthsData, 'total_income')); ?>,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 2
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+        // Chart for Predicted Income
+        var ctxPredicted = document.getElementById('predictedIncomeChart').getContext('2d');
+        var predictedIncomeChart = new Chart(ctxPredicted, {
+            type: 'line',
+            data: {
+                labels: [
+                    ...Array(<?php echo count($monthsData); ?>).fill(null),
+                    ...<?php echo json_encode(array_column($predictedIncomes, 'month')); ?>
+                ],
+                datasets: [{
+                    label: 'Predicted Income',
+                    data: [
+                        ...Array(<?php echo count($monthsData); ?>).fill(null),
+                        ...<?php echo json_encode(array_column($predictedIncomes, 'predicted_income')); ?>
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
                     }
                 }
             }

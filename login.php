@@ -29,6 +29,18 @@ ob_end_flush();
 
 </head>
 <style>
+	.forgot-password-link {
+		display: block;
+		margin-top: 10px;
+		color: #007bff;
+		text-decoration: none;
+	}
+
+	.forgot-password-link:hover {
+		text-decoration: underline;
+	}
+
+
 	body {
 		width: 100%;
 		height: calc(100%);
@@ -87,6 +99,8 @@ ob_end_flush();
 		width: calc(100%);
 		height: calc(100%);
 		/*background: #000000e0;*/
+
+
 	}
 </style>
 
