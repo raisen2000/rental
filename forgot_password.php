@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 
 include 'db_connect.php';
@@ -25,12 +22,7 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 if ($row = mysqli_fetch_assoc($result)) {
-    $userEmail = $row['email'];
-}
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    // echo '<script>alert("Invalid email format. Please try again.");window.location.href = "forgot_password.php";</script>';
-    exit();
+    $email = $row['email'];
 }
 
 if (!empty($email)) {
