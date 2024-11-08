@@ -46,12 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.hostinger.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'noreply@osobustos.site';
-                $mail->Password = 'Dec@121902';
+                $mail->Username = 'no-reply@ohrmslpa.site';
+                $mail->Password = 'Ohrmslpa@2024';
                 $mail->SMTPSecure = 'ssl';
                 $mail->Port = 465;
 
-                $mail->setFrom('noreply@osobustos.site', 'Your Organization');
+                $mail->setFrom('no-reply@ohrmslpa.site', 'Your Organization');
                 $mail->addAddress($email);
 
                 $mail->isHTML(true);
