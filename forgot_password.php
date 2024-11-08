@@ -17,8 +17,16 @@ require 'assets/vendor/phpmailer/phpmailer/src/SMTP.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
+$username = 'admin';
+$sql = "SELECT email FROM `users` WHERE username = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-$email = "lance.musngi@gmail.com";
+if ($row = mysqli_fetch_assoc($result)) {
+    $userEmail = $row['email'];
+}
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo '<script>alert("Invalid email format. Please try again.");window.location.href = "forgot_password.php";</script>';
@@ -83,7 +91,7 @@ mysqli_close($conn);
     <h3>Input Otp</h3>
     <form method="POST" action="forgot_password.php">
         <input type="otp" name="otp" placeholder="Enter OTP" required>
-        <button type="submit">COnfirm</button>
+        <button type="submit">Confirm</button>
     </form>
 </div>
 
