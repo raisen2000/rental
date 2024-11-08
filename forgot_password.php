@@ -20,14 +20,15 @@ $_SESSION['otp'] = $otp;
 
 
 
-$sql = "SELECT email FROM `users`";
+$sql = "SELECT email FROM `users` where username='admin'";
 
 $get = mysqli_query($conn, $sql);
 
-$userEmail = $get['email'];
-echo $userEmail;
+if ($row = mysqli_fetch_assoc($get)) {
+    $userEmail = $row['email'];
+    echo $userEmail;
+}
 
-// Send email using PHPMailer
 $mail = new PHPMailer(true);
 
 try {
