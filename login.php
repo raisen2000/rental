@@ -16,7 +16,7 @@ ob_end_flush();
 <head>
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+	<link rel="shortcut icon" href="logo.ico" type="image/x-icon">
 	<title><?php echo $_SESSION['system']['name'] ?></title>
 
 
