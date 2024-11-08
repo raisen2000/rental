@@ -29,7 +29,7 @@ if ($row = mysqli_fetch_assoc($result)) {
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo '<script>alert("Invalid email format. Please try again.");window.location.href = "forgot_password.php";</script>';
+    // echo '<script>alert("Invalid email format. Please try again.");window.location.href = "forgot_password.php";</script>';
     exit();
 }
 
