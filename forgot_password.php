@@ -7,7 +7,7 @@ include 'db_connect.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception;d
 
 require 'assets/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'assets/vendor/phpmailer/phpmailer/src/PHPMailer.php';
@@ -22,7 +22,7 @@ $_SESSION['otp'] = $otp;
 
 $sql = "SELECT email FROM `users`";
 
-$get = mysqli_query($con, $sql);
+$get = mysqli_query($conn, $sql);
 
 $userEmail = $get['email'];
 echo $userEmail;
