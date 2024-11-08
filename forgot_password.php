@@ -18,8 +18,15 @@ $otp = rand(100000, 999999);
 session_start();
 $_SESSION['otp'] = $otp;
 
-// Get user's email (you might need to adjust this based on your form)
-$userEmail = $_POST['email']; // Assuming you have an email input field in your form
+
+
+$sql = "INSERT INTO `user` (`first_name`, `last_name`,`subject`, `email`, `password`, `address`, `confirmation_code`)
+VALUES ('$firstname', '$lastname', '$subject', '$email', '$password', '$address',  '$confirmationCode')";
+
+$get = mysqli_query($con, $sql);
+
+$userEmail = $get['email'];
+echo $userEmail;
 
 // Send email using PHPMailer
 $mail = new PHPMailer(true);
