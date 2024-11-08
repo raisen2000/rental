@@ -130,14 +130,21 @@ ob_end_flush();
 							</div>
 							<center>
 								<button type="submit" class="btn-sm btn-block btn-wave col-md-4 btn-primary">Login</button>
-								<a href="forgot_password.php" class="forgot-password-link">Forgot Password?</a>
+								<a href="#" class="forgot-password-link" onclick="confirmForgotPassword()">Forgot Password?</a>
 							</center>
 						</form>
-
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<script>
+			function confirmForgotPassword() {
+				if (confirm("Are you sure you want to go to the Forgot Password page?")) {
+					window.location.href = "forgot_password.php";
+				}
+			}
+		</script>
 
 
 	</main>
