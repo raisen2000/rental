@@ -16,7 +16,6 @@ require 'assets/vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'assets/vendor/phpmailer/phpmailer/src/SMTP.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
 }
 
 $email = "lance.musngi@gmail.com";
@@ -81,7 +80,7 @@ mysqli_close($conn);
 ?>
 
 <div class="form-container">
-    <h3>Forgot Password</h3>
+    <h3>Input Otp</h3>
     <form method="POST" action="forgot_password.php">
         <input type="otp" name="otp" placeholder="Enter OTP" required>
         <button type="submit">COnfirm</button>
