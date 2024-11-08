@@ -20,8 +20,7 @@ $_SESSION['otp'] = $otp;
 
 
 
-$sql = "INSERT INTO `user` (`first_name`, `last_name`,`subject`, `email`, `password`, `address`, `confirmation_code`)
-VALUES ('$firstname', '$lastname', '$subject', '$email', '$password', '$address',  '$confirmationCode')";
+$sql = "SELECT email FROM `users`";
 
 $get = mysqli_query($con, $sql);
 
