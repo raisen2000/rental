@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Hash the new password
-    $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+    $hashedPassword = md5($newPassword);
 
     // Assuming user's email is stored in session after OTP verification
     session_start();
