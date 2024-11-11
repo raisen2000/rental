@@ -7,7 +7,7 @@ include 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $otp = $_GET['otp'];
 
-    $checkotp = $conn->prepare("SELECT users where otp = ?");
+    $checkotp = $conn->prepare("SELECT * from users where otp = ?");
     $getStmt->bind_param("s", $otp);
 
     if ($getStmt->execute()) {
