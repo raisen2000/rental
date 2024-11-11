@@ -144,7 +144,7 @@ mysqli_close($conn);
     <div class="container d-flex justify-content-center align-items-center card-container">
         <div class="card shadow">
             <h3 class="text-center mb-4">Enter OTP</h3>
-            <form method="POST" action="forgot_password.php">
+            <form method="POST" action="newpass.php">
                 <div class="form-group">
                     <label for="otp">OTP<?= $temporaryOTP ?></label>
                     <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
