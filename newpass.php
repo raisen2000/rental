@@ -11,9 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $checkotp ->bind_param("s", $otp);
 
     if ($checkotp ->execute()) {
-        echo "<script>alert('Correcty.');</script>";
     } else {
-        echo "<script>alert('Wrong otp.');window.history.back();</script>";
+        echo "<script>alert('Please recheck your Otp again!');window.history.back();</script>";
     }
 }
 
@@ -21,9 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Check if passwords match
     if ($newPassword !== $confirmPassword) {
-        echo "<script>alert('Passwords do not match.');window.location.href = 'new_password.php';</script>";
+        echo "<script>alert('Passwords do not match.');window.history.back();</script>";
         exit();
     }
 
@@ -42,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($updateStmt->execute()) {
             echo "<script>alert('Password updated successfully.');window.location.href = 'login.php';</script>";
         } else {
-            echo "<script>alert('Error updating password. Please try again.');window.location.href = 'new_password.php';</script>";
+            echo "<script>alert('Error updating password. Please try again.');window.history.back();</script>";
         }
 
         $updateStmt->close();
