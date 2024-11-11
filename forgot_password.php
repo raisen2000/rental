@@ -26,7 +26,7 @@ if (!empty($email)) {
     $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
-        $temporaryOTP = bin2hex(random_bytes(4));
+        $temporaryOTP = bin2hex(random_bytes(6));
         $expiry = date("Y-m-d H:i:s", strtotime('+1 hour'));
 
         $updateStmt = $conn->prepare("UPDATE users SET otp = ?, token_expiry = ? WHERE email = ?");
