@@ -26,7 +26,19 @@ if (!empty($email)) {
     $result = $stmt->get_result();
 
     if ($result && $result->num_rows > 0) {
-        $temporaryOTP = bin2hex(random_bytes(6));
+        function generateOTP($length = 5)
+        {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomString;
+        }
+
+        $temporaryOTP = generateOTP();
+
         $expiry = date("Y-m-d H:i:s", strtotime('+1 hour'));
 
         $updateStmt = $conn->prepare("UPDATE users SET otp = ?, token_expiry = ? WHERE email = ?");
