@@ -17,6 +17,8 @@ $result = mysqli_stmt_get_result($stmt);
 
 if ($row = mysqli_fetch_assoc($result)) {
     $email = $row['email'];
+    session_start();
+    $_SESSION['email'] = $email;
 }
 
 if (!empty($email)) {
