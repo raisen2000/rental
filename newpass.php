@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $checkotp ->bind_param("s", $otp);
 
     if ($checkotp ->execute()) {
+        echo "<script>alert('Correcty.');</script>";
     } else {
         echo "<script>alert('Wrong otp.');window.history.back();</script>";
     }
