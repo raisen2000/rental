@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container d-flex justify-content-center align-items-center card-container">
         <div class="card shadow">
             <h3 class="text-center mb-4">Create New Password</h3>
-            <form method="POST" action="new_password.php">
+            <form method="POST" action="newpass.php">
                 <div class="form-group">
                     <label for="new_password">New Password</label>
                     <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter New Password" required>
