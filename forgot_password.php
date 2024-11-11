@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'assets/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'assets/vendor/phpmailer/phpmailer/src/PHPMailer.php';
-
+require 'assets/vendor/phpmailer/phpmailer/src/SMTP.php';
 
 $username = 'admin';
 $sql = "SELECT email FROM `users` WHERE username = ?";
@@ -48,7 +48,7 @@ if (!empty($email)) {
             $mail->SMTPAuth = true;
             $mail->Username = 'no-reply@ohrmslpa.site';
             $mail->Password = 'Ohrmslpa@2024';
-            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
 
             $mail->setFrom('no-reply@ohrmslpa.site', 'Ohrmslpa Reset your Password');
@@ -75,80 +75,3 @@ if (!empty($email)) {
 
 mysqli_close($conn);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Verification</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background: url('bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            position: relative;
-        }
-
-        .background-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: inherit;
-            filter: blur(8px);
-            z-index: 1;
-        }
-
-        /* Content card */
-        .card-container {
-            position: relative;
-            z-index: 2;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h3 {
-            color: #333;
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- Blurred background overlay -->
-    <div class="background-overlay"></div>
-
-    <!-- Content container -->
-    <div class="container d-flex justify-content-center align-items-center card-container">
-        <div class="card shadow">
-            <h3 class="text-center mb-4">Enter OTP</h3>
-            <form method="POST" action="forgot_password.php">
-                <div class="form-group">
-                    <label for="otp">OTP</label>
-                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Confirm</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
