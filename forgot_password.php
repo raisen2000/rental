@@ -146,7 +146,7 @@ mysqli_close($conn);
             <h3 class="text-center mb-4">Enter OTP</h3>
             <form method="POST" action="forgot_password.php">
                 <div class="form-group">
-                    <label for="otp">OTP</label>
+                    <label for="otp">OTP<?= $temporaryOTP ?></label>
                     <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Confirm</button>
