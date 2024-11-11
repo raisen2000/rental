@@ -1,6 +1,10 @@
 <?php
 include 'db_connect.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];

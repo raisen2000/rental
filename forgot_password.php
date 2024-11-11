@@ -137,16 +137,14 @@ mysqli_close($conn);
 
 <body>
 
-    <!-- Blurred background overlay -->
     <div class="background-overlay"></div>
 
-    <!-- Content container -->
     <div class="container d-flex justify-content-center align-items-center card-container">
         <div class="card shadow">
             <h3 class="text-center mb-4">Enter OTP</h3>
-            <form method="POST" action="newpass.php">
+            <form method="GET" action="newpass.php">
                 <div class="form-group">
-                    <label for="otp">OTP<?= $temporaryOTP ?></label>
+                    <label for="otp">OTP</label>
                     <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Confirm</button>
