@@ -10,7 +10,6 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'assets/vendor/phpmailer/phpmailer/src/Exception.php';
 require 'assets/vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require 'assets/vendor/phpmailer/phpmailer/src/SMTP.php';
 
 
 $username = 'admin';
@@ -52,7 +51,7 @@ if (!empty($email)) {
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
-            $mail->setFrom('no-reply@ohrmslpa.site', 'Your Organization');
+            $mail->setFrom('no-reply@ohrmslpa.site', 'Ohrmslpa Reset your Password');
             $mail->addAddress($email);
 
             $mail->isHTML(true);
@@ -86,7 +85,6 @@ mysqli_close($conn);
     <title>OTP Verification</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Custom background styling */
         body {
             background: url('bg.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -98,7 +96,6 @@ mysqli_close($conn);
             position: relative;
         }
 
-        /* Blurred overlay */
         .background-overlay {
             position: absolute;
             top: 0;
