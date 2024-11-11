@@ -8,9 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $otp = $_GET['otp'];
 
     $checkotp = $conn->prepare("SELECT * from users where otp = ?");
-    $getStmt->bind_param("s", $otp);
+    $checkotp ->bind_param("s", $otp);
 
-    if ($getStmt->execute()) {
+    if ($checkotp ->execute()) {
     } else {
         echo "<script>alert('Wrong otp.');window.history.back();</script>";
     }
