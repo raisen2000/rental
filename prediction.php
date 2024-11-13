@@ -1,3 +1,68 @@
+<?php
+include 'db_connect.php';
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Initialize variables to avoid undefined warnings
+$monthsData = [];
+$predictedIncomes = [];
+$totalPredictedIncome = 0;
+$previousIncome = null;
+$growthRates = [];
+$totalGrowth = 0;
+$monthsCount = 0;
+
+// Get current date and calculate the last 6 months
+$currentMonth = date("Y-m-01 00:00:00");
+$sixMonthsAgo = date("Y-m-d H:i:s", strtotime("-6 months", strtotime($currentMonth)));
+
+// Query to get payment data from the last 6 months
+$sql = "SELECT DATE_FORMAT(date_created, '%Y-%m') AS payment_month, SUM(amount) AS total_income
+        FROM payments
+        WHERE date_created >= '$sixMonthsAgo'
+        GROUP BY payment_month
+        ORDER BY payment_month ASC";
+
+$result = $conn->query($sql);
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $monthsData[] = $row;
+
+        // Calculate growth rate between consecutive months
+        if ($previousIncome !== null) {
+            $growthRate = ($row['total_income'] - $previousIncome) / $previousIncome;
+            $growthRates[] = $growthRate;
+            $totalGrowth += $growthRate;
+            $monthsCount++;
+        }
+
+        $previousIncome = $row['total_income'];
+    }
+}
+
+// Calculate the average growth rate (if data exists)
+$averageGrowthRate = ($monthsCount > 0) ? $totalGrowth / $monthsCount : 0;
+
+// Predict income for the next 6 months based on the last month's income and average growth rate
+$lastMonthIncome = $previousIncome;
+for ($i = 1; $i <= 6; $i++) {
+    $predictedMonth = date("Y-m", strtotime("+$i months", strtotime($currentMonth)));
+    $nextMonthIncome = $lastMonthIncome * (1 + $averageGrowthRate);  // Apply growth rate to last month’s income
+    $predictedIncomes[] = [
+        'month' => $predictedMonth,
+        'predicted_income' => $nextMonthIncome
+    ];
+    $totalPredictedIncome += $nextMonthIncome;  // Add to total predicted income
+    $lastMonthIncome = $nextMonthIncome;  // Update for the next iteration
+}
+
+// Close connection
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,8 +77,9 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Income Prediction Dashboard</h1>
+
+        <!-- Table for Last 6 Months Income -->
         <div class="row">
-            <!-- Table for last 6 months' income -->
             <div class="col-md-12">
                 <h2>Last 6 Months Income</h2>
                 <table class="table table-bordered">
@@ -34,7 +100,7 @@
                 </table>
             </div>
 
-            <!-- Table for predicted income for next 6 months -->
+            <!-- Table for Predicted Income -->
             <div class="col-md-12">
                 <h2>Predicted Income for Next 6 Months</h2>
                 <table class="table table-bordered">
@@ -59,62 +125,78 @@
                 </table>
             </div>
 
-            <!-- Chart for last 6 months' historical income -->
+            <!-- Income Prediction Graphs -->
             <div class="col-md-12">
-                <h2>Historical Income (Last 6 Months)</h2>
-                <canvas id="historicalIncomeChart"></canvas> <!-- Canvas for historical chart -->
+                <h2>Income Prediction Graphs</h2>
             </div>
-
-            <!-- Chart for predicted income -->
-            <div class="col-md-12">
-                <h2>Predicted Income Graph</h2>
-                <canvas id="incomePredictionChart"></canvas> <!-- Canvas for prediction chart -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Last 6 Months Income</h5>
+                        <canvas id="lastSixMonthsIncomeChart"></canvas> <!-- Canvas for the last 6 months income chart -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Predicted Income</h5>
+                        <canvas id="predictedIncomeChart"></canvas> <!-- Canvas for the predicted income chart -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Data for historical income chart
-        var historicalCtx = document.getElementById('historicalIncomeChart').getContext('2d');
-        var historicalChart = new Chart(historicalCtx, {
+        // Chart for Last 6 Months Income
+        var ctxLastSixMonths = document.getElementById('lastSixMonthsIncomeChart').getContext('2d');
+        var lastSixMonthsChart = new Chart(ctxLastSixMonths, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode(array_column($monthsData, 'payment_month')); ?>, // Months (X-axis)
+                labels: <?php echo json_encode(array_column($monthsData, 'payment_month')); ?>,
                 datasets: [{
-                    label: 'Historical Income',
-                    data: <?php echo json_encode(array_column($monthsData, 'total_income')); ?>, // Income (Y-axis)
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue background
-                    borderColor: 'rgba(54, 162, 235, 1)', // Blue line
+                    label: 'Total Income',
+                    data: <?php echo json_encode(array_column($monthsData, 'total_income')); ?>,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 2
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }
             }
         });
 
-        // Data for predicted income chart
-        var ctx = document.getElementById('incomePredictionChart').getContext('2d');
-        var predictionChart = new Chart(ctx, {
+        // Chart for Predicted Income
+        var ctxPredicted = document.getElementById('predictedIncomeChart').getContext('2d');
+        var predictedIncomeChart = new Chart(ctxPredicted, {
             type: 'line',
             data: {
-                labels: <?php echo json_encode(array_column($predictedIncomes, 'month')); ?>, // Months (X-axis)
+                labels: [
+                    ...Array(<?php echo count($monthsData); ?>).fill(null),
+                    ...<?php echo json_encode(array_column($predictedIncomes, 'month')); ?>
+                ],
                 datasets: [{
                     label: 'Predicted Income',
-                    data: <?php echo json_encode(array_column($predictedIncomes, 'predicted_income')); ?>, // Income (Y-axis)
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Light green background
-                    borderColor: 'rgba(75, 192, 192, 1)', // Green line
-                    borderWidth: 2
+                    data: [
+                        ...Array(<?php echo count($monthsData); ?>).fill(null),
+                        ...<?php echo json_encode(array_column($predictedIncomes, 'predicted_income')); ?>
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    borderDash: [5, 5]
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: false
                     }
                 }
             }
