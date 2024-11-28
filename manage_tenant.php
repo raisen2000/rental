@@ -49,7 +49,7 @@ if (isset($_GET['id'])) {
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
-				<label for="" class="control-label">House</label>
+				<label for="" class="control-label">Available house</label>
 				<select name="house_id" id="" class="custom-select select2">
 					<option value=""></option>
 					<?php
