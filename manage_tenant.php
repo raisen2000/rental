@@ -11,37 +11,46 @@ if (isset($_GET['id'])) {
 	<?php
 	$house = $conn->query("SELECT * FROM houses WHERE id NOT IN (SELECT house_id FROM tenants WHERE status = 1) " . (isset($house_id) ? " OR id = $house_id" : ""));
 	$houses_available = $house->num_rows > 0; // Check if there are available houses
+
+	// Trigger a JavaScript alert and page refresh if no houses are available
+	if (!$houses_available) {
+		echo "<script>
+			alert('No houses are currently available for tenants.');
+			window.location.reload();
+		</script>";
+		exit; // Stop further processing of the page
+	}
 	?>
 	<form action="" id="manage-tenant">
 		<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 		<div class="row form-group">
 			<div class="col-md-4">
 				<label for="" class="control-label">Last Name</label>
-				<input type="text" class="form-control" name="lastname" value="<?php echo isset($lastname) ? $lastname : '' ?>" required <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="text" class="form-control" name="lastname" value="<?php echo isset($lastname) ? $lastname : '' ?>" required>
 			</div>
 			<div class="col-md-4">
 				<label for="" class="control-label">First Name</label>
-				<input type="text" class="form-control" name="firstname" value="<?php echo isset($firstname) ? $firstname : '' ?>" required <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="text" class="form-control" name="firstname" value="<?php echo isset($firstname) ? $firstname : '' ?>" required>
 			</div>
 			<div class="col-md-4">
 				<label for="" class="control-label">Middle Name</label>
-				<input type="text" class="form-control" name="middlename" value="<?php echo isset($middlename) ? $middlename : '' ?>" <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="text" class="form-control" name="middlename" value="<?php echo isset($middlename) ? $middlename : '' ?>">
 			</div>
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
 				<label for="" class="control-label">Facebook Name</label>
-				<input type="email" class="form-control" name="email" value="<?php echo isset($email) ? $email : '' ?>" required <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="email" class="form-control" name="email" value="<?php echo isset($email) ? $email : '' ?>" required>
 			</div>
 			<div class="col-md-4">
 				<label for="" class="control-label">Contact #</label>
-				<input type="text" class="form-control" name="contact" value="<?php echo isset($contact) ? $contact : '' ?>" required <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="text" class="form-control" name="contact" value="<?php echo isset($contact) ? $contact : '' ?>" required>
 			</div>
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
 				<label for="" class="control-label">House</label>
-				<select name="house_id" id="" class="custom-select select2" <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<select name="house_id" id="" class="custom-select select2">
 					<option value=""></option>
 					<?php
 					while ($row = $house->fetch_assoc()):
@@ -52,18 +61,12 @@ if (isset($_GET['id'])) {
 			</div>
 			<div class="col-md-4">
 				<label for="" class="control-label">Registration Date</label>
-				<input type="date" class="form-control" name="date_in" value="<?php echo isset($date_in) ? date("Y-m-d", strtotime($date_in)) : '' ?>" required <?php echo !$houses_available ? 'disabled' : '' ?>>
+				<input type="date" class="form-control" name="date_in" value="<?php echo isset($date_in) ? date("Y-m-d", strtotime($date_in)) : '' ?>" required>
 			</div>
 		</div>
 	</form>
-
-	<!-- Optional message if no houses are available -->
-	<?php if (!$houses_available): ?>
-		<div class="alert alert-warning mt-3">
-			No houses are currently available for tenants.
-		</div>
-	<?php endif; ?>
 </div>
+
 
 <script>
 	$('#manage-tenant').submit(function(e) {
