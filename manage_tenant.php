@@ -9,16 +9,15 @@ if (isset($_GET['id'])) {
 ?>
 <div class="container-fluid">
 	<?php
-	$house = $conn->query("SELECT * FROM houses WHERE id NOT IN (SELECT house_id FROM tenants WHERE status = 1) " . (isset($house_id) ? " OR id = $house_id" : ""));
-	$houses_available = $house->num_rows > 0; // Check if there are available houses
+	$house = $conn->query("SELECT * FROM houses WHERE id NOT IN (SELECT house_id FROM tenants WHERE status = 1) and archive ='0' " . (isset($house_id) ? " OR id = $house_id" : ""));
+	$houses_available = $house->num_rows > 0;
 
-	// Trigger a JavaScript alert and page refresh if no houses are available
 	if (!$houses_available) {
 		echo "<script>
 			alert('No houses are currently available for tenants.');
 			window.location.reload();
 		</script>";
-		exit; // Stop further processing of the page
+		exit;
 	}
 	?>
 	<form action="" id="manage-tenant">
@@ -49,13 +48,16 @@ if (isset($_GET['id'])) {
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
-				<label for="" class="control-label">House</label>
-				<select name="house_id" id="" class="custom-select select2">
+				<label for="" class="control-label">House(s)</label>
+				<select name="house_ids[]" id="" class="custom-select select2" multiple>
 					<option value=""></option>
 					<?php
 					while ($row = $house->fetch_assoc()):
 					?>
-						<option value="<?php echo $row['id'] ?>" <?php echo isset($house_id) && $house_id == $row['id'] ? 'selected' : '' ?>><?php echo $row['house_no'] ?></option>
+						<option value="<?php echo $row['id'] ?>"
+							<?php echo isset($house_ids) && in_array($row['id'], $house_ids) ? 'selected' : '' ?>>
+							<?php echo $row['house_no'] ?>
+						</option>
 					<?php endwhile; ?>
 				</select>
 			</div>
@@ -65,6 +67,7 @@ if (isset($_GET['id'])) {
 			</div>
 		</div>
 	</form>
+
 </div>
 
 

@@ -268,30 +268,54 @@ class Action
 	function delete_house()
 	{
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM houses where id = " . $id);
-		if ($delete) {
+		$update = $this->db->query("UPDATE houses SET archive = 1 WHERE id = " . $id);
+		if ($update) {
 			return 1;
 		}
 	}
 	function save_tenant()
 	{
 		extract($_POST);
+
+		// Common tenant data (excluding house_id)
 		$data = " firstname = '$firstname' ";
 		$data .= ", lastname = '$lastname' ";
 		$data .= ", middlename = '$middlename' ";
 		$data .= ", email = '$email' ";
 		$data .= ", contact = '$contact' ";
-		$data .= ", house_id = '$house_id' ";
 		$data .= ", date_in = '$date_in' ";
-		if (empty($id)) {
 
-			$save = $this->db->query("INSERT INTO tenants set $data");
+		if (empty($id)) {
+			// Inserting new tenant
+			$save_success = true;
+
+			foreach ($house_ids as $house_id) {
+				$tenant_data = $data . ", house_id = '$house_id' ";
+				$save = $this->db->query("INSERT INTO tenants SET $tenant_data");
+
+				if (!$save) {
+					$save_success = false; // Mark failure if any insertion fails
+					break;
+				}
+			}
+
+			if ($save_success) {
+				return 1; // Return success if all inserts succeed
+			}
 		} else {
-			$save = $this->db->query("UPDATE tenants set $data where id = $id");
+			// Updating existing tenant - assumes only one house_id can be updated per tenant
+			$house_id = reset($house_ids); // Use the first house ID for update
+			$data .= ", house_id = '$house_id' ";
+			$save = $this->db->query("UPDATE tenants SET $data WHERE id = $id");
+
+			if ($save) {
+				return 1; // Return success for update
+			}
 		}
-		if ($save)
-			return 1;
+
+		return 0; // Return failure if any query fails
 	}
+
 	function delete_tenant()
 	{
 		extract($_POST);
