@@ -78,33 +78,40 @@
 								<?php
 								$i = 1;
 								$archiveCondition = isset($_GET['show_archived']) && $_GET['show_archived'] == '1' ? "" : "and h.archive ='0'";
-								$house = $conn->query("SELECT h.*,c.name as cname FROM houses h 
-                                           INNER JOIN categories c 
-                                           ON c.id = h.category_id $archiveCondition 
-                                           ORDER BY id ASC");
-								while ($row = $house->fetch_assoc()):
-									$rowClass = $row['archive'] == 1 ? 'archived' : '';
-								?>
-									<tr class="<?php echo $rowClass; ?>">
-										<td class="text-center"><?php echo $i++ ?></td>
-										<td class="">
-											<p>House #: <b><?php echo $row['house_no'] ?></b></p>
-											<p><small>House Type: <b><?php echo $row['cname'] ?></b></small></p>
-											<p><small>Description: <b><?php echo $row['description'] ?></b></small></p>
-											<p><small>Price: <b><?php echo number_format($row['price'], 2) ?></b></small></p>
-										</td>
-										<td class="text-center">
-											<?php if ($row['archive'] == 1): ?>
-												<!-- Unarchive Button -->
-												<button class="btn btn-sm btn-success unarchive_house" type="button" data-id="<?php echo $row['id'] ?>">Unarchive</button>
-											<?php else: ?>
-												<!-- Edit and Delete Buttons -->
-												<button class="btn btn-sm btn-primary edit_house" type="button" data-id="<?php echo $row['id'] ?>" data-house_no="<?php echo $row['house_no'] ?>" data-description="<?php echo $row['description'] ?>" data-category_id="<?php echo $row['category_id'] ?>" data-price="<?php echo $row['price'] ?>">Edit</button>
-												<button class="btn btn-sm btn-danger delete_house" type="button" data-id="<?php echo $row['id'] ?>">Delete</button>
-											<?php endif; ?>
-										</td>
-									</tr>
-								<?php endwhile; ?>
+								$house = $conn->query("SELECT h.*, c.name as cname, 
+                      (SELECT COUNT(*) FROM tenants WHERE house_id = h.id) as tenant_count 
+                      FROM houses h 
+                      INNER JOIN categories c ON c.id = h.category_id 
+                      $archiveCondition 
+                      ORDER BY id ASC");
+
+while ($row = $house->fetch_assoc()):
+    $rowClass = $row['archive'] == 1 ? 'archived' : '';
+    $disableArchive = $row['tenant_count'] > 0 ? 'disabled' : '';
+?>
+<tr class="<?php echo $rowClass; ?>">
+    <td class="text-center"><?php echo $i++ ?></td>
+    <td class="">
+        <p>House #: <b><?php echo $row['house_no'] ?></b></p>
+        <p><small>House Type: <b><?php echo $row['cname'] ?></b></small></p>
+        <p><small>Description: <b><?php echo $row['description'] ?></b></small></p>
+        <p><small>Price: <b><?php echo number_format($row['price'], 2) ?></b></small></p>
+    </td>
+	<td class="text-center">
+    <?php if ($row['archive'] == 1): ?>
+        <!-- Disable Edit Button for Archived Houses -->
+        <button class="btn btn-sm btn-primary edit_house" type="button" data-id="<?php echo $row['id']; ?>" disabled>Edit</button>
+        <button class="btn btn-sm btn-success toggle_archive" type="button" data-id="<?php echo $row['id']; ?>" data-action="unarchive">Unarchive</button>
+    <?php else: ?>
+        <!-- Enable Edit Button for Active Houses -->
+        <button class="btn btn-sm btn-primary edit_house" type="button" data-id="<?php echo $row['id']; ?>" data-house_no="<?php echo $row['house_no']; ?>" data-description="<?php echo $row['description']; ?>" data-category_id="<?php echo $row['category_id']; ?>" data-price="<?php echo $row['price']; ?>">Edit</button>
+        <button class="btn btn-sm btn-danger toggle_archive" type="button" data-id="<?php echo $row['id']; ?>" data-action="archive">Archive</button>
+    <?php endif; ?>
+</td>
+
+</tr>
+<?php endwhile; ?>
+
 							</tbody>
 						</table>
 					</div>
@@ -134,46 +141,47 @@
 					window.location.search = urlParams.toString();
 				});
 
-				// Unarchive Action (AJAX Handler)
-				document.querySelectorAll('.unarchive_house').forEach(button => {
-					button.addEventListener('click', function() {
-						const houseId = this.dataset.id;
-						if (confirm("Are you sure you want to unarchive this house?")) {
-							// Make an AJAX request to unarchive the house
-							fetch('unarchive_house.php', {
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/x-www-form-urlencoded'
-									},
-									body: new URLSearchParams({
-										id: houseId
-									})
-								})
-								.then(response => response.json())
-								.then(data => {
-									if (data.success) {
-										alert("House successfully unarchived!");
-										location.reload();
-									} else {
-										// Show detailed error message
-										alert(`Error: ${data.message}`);
-									}
-								})
-								.catch(error => {
-									console.error("Error:", error);
-									alert("An error occurred while unarchiving the house.");
-								});
-						}
-					});
-				});
+				// Archive Action (AJAX Handler)
+				document.querySelectorAll('.toggle_archive').forEach(button => {
+    button.addEventListener('click', function () {
+        const houseId = this.dataset.id;
+        const action = this.dataset.action;
+
+        // Confirmation prompt
+        const actionText = action === 'archive' ? 'archive this house?' : 'unarchive this house?';
+        if (!confirm(`Are you sure you want to ${actionText}`)) return;
+
+        // Send the request to the backend
+        fetch('archive_house.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ id: houseId, action: action })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`House successfully ${action === 'archive' ? 'archived' : 'unarchived'}!`);
+                    location.reload();
+                } else {
+                    alert(data.message || 'An error occurred while updating the house status.');
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert('An error occurred. Please try again.');
+            });
+    });
+});
+
 			</script>
-
-
 			<!-- Table Panel -->
 		</div>
 	</div>
 
 </div>
+
 <style>
 	td {
 		vertical-align: middle !important;
