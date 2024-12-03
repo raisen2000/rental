@@ -48,7 +48,7 @@ if (isset($_GET['id'])) {
 		</div>
 		<div class="form-group row">
 			<div class="col-md-4">
-				<label for="" class="control-label">House(s)</label>
+				<label for="" class="control-label">Available Houses</label>
 				<select name="house_ids[]" id="" class="custom-select select2" multiple>
 					<option value=""></option>
 					<?php
