@@ -132,7 +132,7 @@ $conn->close();
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Last 6 Months Income</h5>
+                        <h5 class="card-title">Previous Months Income</h5>
                         <canvas id="lastSixMonthsIncomeChart"></canvas> <!-- Canvas for the last 6 months income chart -->
                     </div>
                 </div>
