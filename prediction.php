@@ -81,7 +81,7 @@ $conn->close();
         <!-- Table for Last 6 Months Income -->
         <div class="row">
             <div class="col-md-12">
-                <h2>Last 6 Months Income</h2>
+                <h2>Previous Months Income</h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
